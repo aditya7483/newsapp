@@ -1,0 +1,7 @@
+node_modules
+plugins
+.vs-code
+build
+public
+cache
+src/client/@arivaa-react/ckeditor4-wrapper/ckeditor_to_be_copied_to_public
