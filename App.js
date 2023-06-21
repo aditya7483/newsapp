@@ -15,24 +15,32 @@ import NewsContainer from './components/NewsContainer';
 import axios from 'axios';
 import Header from './components/Header';
 import SearchBar from './components/Search';
+import MyModal from './components/Filter';
 const API_KEY = '445f58e1d17c4229b23e3965d19197c7';
 
 export default function App() {
   const [newsData, setNewsData] = useState([]);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    country: 'IN',
+    category: 'general',
+  });
 
-  const fetchData = async (endpoint, params = {}) => {
+  const fetchData = async (endpoint) => {
     try {
       setLoading(true);
-      const res = await axios.get(`https://newsapi.org/v2/${endpoint}`, {
-        params: {
-          apiKey: API_KEY,
-          country: 'IN',
-          q: search,
-          ...params,
-        },
-      });
+      const { filterType = 'top-headlines', ...rest } = data;
+      const res = await axios.get(
+        `https://newsapi.org/v2/${endpoint || 'top-headlines'}`,
+        {
+          params: {
+            apiKey: API_KEY,
+            q: search,
+            ...rest,
+          },
+        }
+      );
       setNewsData(res.data.articles);
       // const news = [
       //   {
@@ -372,11 +380,11 @@ export default function App() {
   };
 
   const handleSearchSubmit = () => {
-    fetchData('top-headlines');
+    fetchData();
   };
 
   useEffect(() => {
-    fetchData('top-headlines');
+    fetchData();
   }, []);
   const renderNewsItem = ({ item }) => (
     <TouchableOpacity
@@ -389,7 +397,15 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header
+        modalProps={{
+          data,
+          setData,
+          onSubmit: () => {
+            fetchData();
+          },
+        }}
+      />
       <SearchBar
         search={search}
         setSearch={setSearch}

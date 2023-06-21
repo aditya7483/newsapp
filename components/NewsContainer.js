@@ -125,7 +125,10 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 20,
+    top: 30,
+    borderRadius: 100,
+    borderColor: 'gray',
+    borderWidth: 5,
     right: 20,
   },
 });

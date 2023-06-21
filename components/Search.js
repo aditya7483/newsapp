@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import MyModal from './Filter';
 
 const SearchBar = ({ search, setSearch, onSubmit }) => {
   const handleSearch = (text) => {
@@ -19,6 +20,7 @@ const SearchBar = ({ search, setSearch, onSubmit }) => {
 
   return (
     <View style={styles.container}>
+      {/* <MyModal /> */}
       <TextInput
         style={styles.input}
         placeholder="Search"
